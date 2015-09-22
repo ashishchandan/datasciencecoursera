@@ -1,0 +1,3 @@
+colnames(a) <- c("ash" , "is")
+
+## data frame should not be empty
