@@ -1,0 +1,30 @@
+Cov_matrix <- cov(M)
+view(Cov_matrix)
+
+
+## to divide the datast into 70:30 , for trng and test.
+
+Sample_size <- floor(nrow(wineData) * 0.7)
+Sample_size
+
+trng_rows <- sample(1:nrow(wineData) , Sample_size , replace = F)
+trng_rows
+
+
+trng_data <- wineData[trng_rows, ]
+trng_data
+test_data <- wineData[-trng_rows, ]
+test_data
+
+
+q <- lm(Price ~ WinterRain + AGST + HarvestRain +
+                   Age + FrancePop, data = trng_data)
+
+summary(q)
+
+
+
+w <- predict(q, newdata = test_data)	
+w
+z <- cbind(test_data, w)
+View(z)
