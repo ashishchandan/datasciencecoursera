@@ -210,3 +210,24 @@ from z-value , we can determine that:
 3)in cluster3, Text & Data are the largest differentiating factors.
 4)in cluster4, Calls & Intern are the largest differentiating factors.
 5)in cluster5, Intern & Calls are the largest differentiating factors.
+
+
+
+
+
+--------------------------------------------------------------------------------------------------
+
+## To determine optimal no. of cluster / value of K
+mydata <- d
+wss <- (nrow(mydata)-1)*sum(apply(mydata,2,var))
+  for (i in 2:15) wss[i] <- sum(kmeans(mydata,
+                                       centers=i)$withinss)
+plot(1:15, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares")
+
+
+
+
+
+
+
