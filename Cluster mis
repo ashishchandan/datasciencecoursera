@@ -1,0 +1,273 @@
+# read the file
+
+TelcoData <- read.csv("C:/Users/551978/Desktop/DATA_Telco.csv" )
+
+
+
+# scaling
+mydata <- scale(TelcoData)
+View(mydata)
+
+variable.names(mydata)
+
+
+fit2 <- kmeans(mydata, 5)
+fit3 <- data.frame(TelcoData, fit2$cluster)
+
+
+mydata1 <- cbind(mydata, cluster= fit2$cluster)
+
+View(mydata1)
+
+variable.names(mydata1)
+
+# cluster1
+
+cluster1 <- mydata1[mydata1[ , 6] == 1, ]
+
+View(cluster)
+
+centroid1 <- apply(cluster1,2, mean)
+library(cluster)
+medoids1 <- pam(cluster1, 1)$medoids
+
+# cluster2
+cluster2 <- mydata1[mydata1[ , 6] == 2, ]
+centroid2 <- apply(cluster2,2, mean)
+
+# cluster3
+cluster3 <- mydata1[mydata1[ , 6] == 3, ]
+centroid3 <- apply(cluster3,2, mean)
+
+
+# cluster4
+cluster4 <- mydata1[mydata1[ , 6] == 4, ]
+centroid4 <- apply(cluster4,2, mean)
+
+# cluster5
+cluster5 <- mydata1[mydata1[ , 6] == 5, ]
+centroid5 <- apply(cluster5,2, mean)
+
+
+# withinss1
+
+rm(a, b, c) rm(b)
+
+a <- 0
+b <- 0
+c <- 0 
+d <- data.frame()
+
+rm(a,b,c)
+for ( i in 1:nrow(mydata1)) { 
+  for( j in 1:5) {
+    a <- (mydata1[i , j])^2
+    b <-  a + b
+  }
+  c = sum(b, c)
+}
+c
+
+c
+
+d
+c
+fit2$tot.withinss/ fit2$totss
+
+
+######################################################
+#totss
+
+d1 <- sapply(mydata1[ , 1], function( sq ) sq*sq)
+d2 <- sapply(mydata1[ , 2], function( sq ) sq*sq)
+d3 <- sapply(mydata1[ , 3], function( sq ) sq*sq)
+d4 <- sapply(mydata1[ , 4], function( sq ) sq*sq)
+d5 <- sapply(mydata1[ , 5], function( sq ) sq*sq)
+
+mydata2 <- cbind(mydata1, d1, d2 , d3, d4, d5)
+
+
+cols <- colSums(mydata2[ , 7:11])
+
+
+
+sum(cols)
+fit2$totss
+
+#######################################################
+
+## fit2$withinss
+
+
+d11 <- sapply(cluster1[ , 1]- centroid1[1], function( sq ) sq*sq)
+d21 <- sapply(cluster1[ , 2]- centroid1[2], function( sq ) sq*sq)
+d31 <- sapply(cluster1[ , 3] - centroid1[3], function( sq ) sq*sq)
+d41 <- sapply(cluster1[ , 4]- centroid1[4], function( sq ) sq*sq)
+d51 <- sapply(cluster1[ , 5]- centroid1[5], function( sq ) sq*sq)
+
+mydata21 <- cbind(cluster1, d11, d21 , d31, d41, d51)
+
+
+cols1 <- colSums(mydata21[ , 7:11])
+cols1
+
+sum(cols1)
+
+
+----------------------------------------------
+
+
+
+
+
+
+
+d11 <- sapply(cluster1[ , 1] - medoids1[1], function( sq ) sq*sq)
+d21 <- sapply(cluster1[ , 2]- medoids1[2], function( sq ) sq*sq)
+d31 <- sapply(cluster1[ , 3]- medoids1[3] , function( sq ) sq*sq)
+d41 <- sapply(cluster1[ , 4]- medoids1[4], function( sq ) sq*sq)
+d51 <- sapply(cluster1[ , 5]- medoids1[5], function( sq ) sq*sq)
+
+mydata21 <- cbind(cluster1, d11, d21 , d31, d41, d51)
+
+cols1 <- colSums(mydata21[ , 7:11])
+
+
+sum(cols1)
+fit2$withinss
+
+
+-----------------------------------------------------
+  
+  
+  d12 <- sapply(cluster1[ , 1]- centroid22[1], function( sq ) sq*sq)
+d22 <- sapply(cluster2[ , 2]- centroid2[2], function( sq ) sq*sq)
+d32 <- sapply(cluster2[ , 3] - centroid2[3], function( sq ) sq*sq)
+d42 <- sapply(cluster2[ , 4]- centroid2[4], function( sq ) sq*sq)
+d52 <- sapply(cluster2[ , 5]- centroid2[5], function( sq ) sq*sq)
+
+mydata22 <- cbind(cluster2, d12, d22 , d32, d42, d52)
+
+
+cols2 <- colSums(mydata22[ , 7:11])
+cols2
+
+sum(cols2)
+
+
+----------------------------------------------
+  
+  
+  
+  medoids2 <- pam(cluster2, 1)$medoids
+  
+  
+  
+  d12 <- sapply(cluster2[ , 1] - medoids2[1], function( sq ) sq*sq)
+d22 <- sapply(cluster2[ , 2]- medoids2[2], function( sq ) sq*sq)
+d32 <- sapply(cluster2[ , 3]- medoids2[3] , function( sq ) sq*sq)
+d42 <- sapply(cluster2[ , 4]- medoids2[4], function( sq ) sq*sq)
+d52 <- sapply(cluster2[ , 5]- medoids2[5], function( sq ) sq*sq)
+
+mydata22 <- cbind(cluster2, d12, d22 , d32, d42, d52)
+
+cols2 <- colSums(mydata22[ , 7:11])
+
+
+sum(cols2)
+fit2$withinss
+
+
+-------------------------------------------------
+  fit2$betweenss
+
+betweenss <- 0
+
+a <- centroid1
+b <- centroid2
+c <- centroid3
+d <- centroid4
+e <- centroid5
+f <- cbind(a, b, c, d, e)
+(f[1,1]-f[1, 2])^2
+(f[2,1]-f[2, 2])^2
+(f[3, 1]-f[3, 2])^2
+(f[4, 1]-f[4, 2])^2
+(f[5, 1]-f[5, 2])^2
+
+
+betweenss <- 0
+for ( i in 1:4) {
+  for(j in (i+1):5){
+    total <-  (f[1, i]-f[1, j])^2 +
+  (f[2, i]-f[2, j])^2 +
+  (f[3, i]-f[3, j])^2 +
+  (f[4, i]-f[4, j])^2 +
+  (f[5, i]-f[5, j])^2
+  
+    }
+  betweenss <- total + betweenss
+}
+
+betweenss
+
+=================================================
+  
+  #betweenss
+  dis <- c(0, 0, 0, 0, 0)
+  
+  for ( i in 1:5) {
+      total <-  (f[1, i])^2 +
+        (f[2, i])^2 +
+        (f[3, i])^2 +
+        (f[4, i])^2 +
+        (f[5, i])^2
+  dis [i] < - total
+  }
+
+
+
+
+
+
+
+
+total1 <-  (f[1, 1])^2 +
+  (f[2, 1])^2 +
+  (f[3, 1])^2 +
+  (f[4, 1])^2 +
+  (f[5, 1])^2
+
+total2 <-  (f[1, 2])^2 +
+  (f[2, 2])^2 +
+  (f[3, 2])^2 +
+  (f[4, 2])^2 +
+  (f[5, 2])^2
+total3 <-  (f[1, 3])^2 +
+  (f[2, 3])^2 +
+  (f[3, 3])^2 +
+  (f[4, 3])^2 +
+  (f[5, 3])^2
+
+total4 <-  (f[1, 4])^2 +
+  (f[2, 4])^2 +
+  (f[3, 4])^2 +
+  (f[4, 4])^2 +
+  (f[5, 4])^2
+
+total5 <-  (f[1, 5])^2 +
+  (f[2, 5])^2 +
+  (f[3, 5])^2 +
+  (f[4, 5])^2 +
+  (f[5, 5])^2
+
+dis <- c(total1, total2, total3, total4, total5)
+
+n <- fit2$size
+
+m <- dis * n 
+
+sum(m)
+
+fit2$betweenss
+
