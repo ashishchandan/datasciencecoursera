@@ -1,0 +1,23 @@
+# read the file
+
+TelcoData <- read.csv("C:/Users/551978/Desktop/DATA_Telco.csv" )
+scaled <- scale(TelcoData)
+d <- dist(as.matrix(scaled))
+hc <- hclust(d)  
+
+plot(hc)
+
+ntree <- as.data.frame(cutree(hc , k= 3))
+
+
+scaled <- cbind(scaled ,ntree )
+scaled <- as.data.frame(scaled)
+
+
+
+class(scaled)
+cluster <- split(scaled , ntree)
+
+
+clusterSize <- c(nrow(cluster[[1]]) , nrow(cluster[[2]]), 
+                  nrow(cluster[[3]]))
