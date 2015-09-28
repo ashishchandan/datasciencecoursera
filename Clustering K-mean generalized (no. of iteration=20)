@@ -1,0 +1,76 @@
+# read the file
+
+TelcoData <- read.csv("C:/Users/551978/Desktop/DATA_Telco.csv" )
+
+k = 3
+
+# scaling
+sacled <- scale(TelcoData)
+
+
+variable.names(sacled)
+
+set.seed(1)
+seed <- sample(1:nrow(sacled), k)
+centroid <- data.frame()
+for ( i in 1:k) {
+  centroid <- rbind(centroid, sacled[seed[i], ])
+}
+
+
+
+#for( i in 1:k){
+#  clusterx <- paste("cluster", i, sep = "")
+  
+#  assign(clusterx, data.frame())
+#}
+
+
+###################################################3
+
+for (s in 1:20){
+ncluster <- data.frame()
+
+for( j in 1:nrow(sacled)) {
+  comp <- c()
+  for (z in 1:k) {
+    
+    
+    d <- 0
+    
+    for(p in 1:length(variable.names(sacled))) {
+      
+      a <- (centroid[z, p] - sacled [j , p])^2
+      
+      d <- d+a
+    }
+    # ax <- paste("a", z , sep = "")
+    #assign(ax, d)
+    comp <- cbind(comp,d)
+  }
+  for(q in 1:k) {
+    if( comp[1, q] == min(comp)){ 
+      ncluster <- rbind(ncluster, q)
+      colnames(ncluster) <- "cluster"
+    } else { #do nothing
+    }
+  }
+}
+sacled <- cbind(sacled, ncluster)
+
+lcluster <- split(sacled, sacled$cluster) 
+
+centroid <- data.frame()
+for(r in 1:k){
+  centroid <- rbind(centroid ,colMeans(lcluster[[r]]) )
+}
+
+colnames(centroid) <- variable.names(TelcoData)
+}
+
+
+############################################
+print(ClusterSize)
+for(t in 1:k){
+  print(nrow(lcluster[[t]]))
+}
